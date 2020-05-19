@@ -1,0 +1,22 @@
+{
+  "name": "mcicoin-contract",
+  "version": "1.0.0",
+  "description": "",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^2.4.0",
+    "keythereum": "^1.0.4",
+    "solc": "^0.5.13",
+    "truffle-flatten": "^1.0.7",
+    "truffle-flattener": "^1.4.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mci Coin Dev Team",
+  "license": "ISC",
+  "devDependencies": {}
+}
