@@ -108,9 +108,6 @@ contract MciCoin is ERC20Capped, ERC20Detailed {
 
     /**
      * @dev change the amount of reserved token
-     *    reserve should be less than or equal to the current token balance
-     *
-     *    Refer to the comment on the admin if you want to know more.
      *
      * @param _address the target address whose token will be frozen for future use
      * @param _reserve  the amount of reserved token
@@ -136,8 +133,7 @@ contract MciCoin is ERC20Capped, ERC20Detailed {
 
     /**
      * @dev change vault address
-     *    BEWARE! this withdraw all token from old vault and store it to the new vault
-     *            and new vault's allowed, reserve will be set to zero
+     *
      * @param _newVault new vault address
      */
     function setVault(address _newVault) public onlyOwner {
@@ -149,10 +145,6 @@ contract MciCoin is ERC20Capped, ERC20Detailed {
         // change vault address
         vault = _newVault;
         emit VaultChanged(_oldVault, _newVault);
-
-        // adjust balance
-        uint _value = balanceOf(_oldVault);
-        _transfer(_oldVault, _newVault, _value);
     }
 
     /**
