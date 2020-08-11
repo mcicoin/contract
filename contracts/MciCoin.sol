@@ -9,15 +9,15 @@ import "@openzeppelin/contracts/token/ERC20/ERC20Detailed.sol";
 contract MciCoin is ERC20Capped, ERC20Detailed {
     uint noOfTokens = 3300000000; // 3,300,000,000(3.3B)
 
-    // Address of mci coin vault 
-    // The vault will have all the mci coin issued
+    // Address of mci coin vault
+    // The vault will have all the mci coin issued.
     address internal vault;
 
-    // Address of mci coin owner 
-    // The owner can change admin and vault address
+    // Address of mci coin owner
+    // The owner can change admin and vault address.
     address internal owner;
 
-    // Address of mci coin admin 
+    // Address of mci coin admin
     // The admin can change reserve. The reserve is the amount of token
     // assigned to some address but not permitted to use.
     address internal admin;
@@ -72,6 +72,7 @@ contract MciCoin is ERC20Capped, ERC20Detailed {
      * @dev initialize QRC20(ERC20)
      *
      * all token will deposit into the vault
+     * later, the vault, owner will be multi sign contract to protect privileged operations
      *
      * @param _symbol token symbol
      * @param _name   token name
