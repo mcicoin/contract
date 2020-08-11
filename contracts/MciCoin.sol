@@ -10,32 +10,22 @@ contract MciCoin is ERC20Capped, ERC20Detailed {
     uint noOfTokens = 3300000000; // 3,300,000,000(3.3B)
 
     // Address of mci coin vault 
-    // The vault will have all the mci coin issued and the operation
-    // on its token can be protected by offline account or multisig
-    // In addtion, vault can recall(transfer back) the reserved amount
-    // from some address.
+    // The vault will have all the mci coin issued
     address internal vault;
 
     // Address of mci coin owner 
-    // The owner can change admin and vault address, but the change operation
-    // on its token can be protected by offline account or multisig
+    // The owner can change admin and vault address
     address internal owner;
 
     // Address of mci coin admin 
     // The admin can change reserve. The reserve is the amount of token
     // assigned to some address but not permitted to use.
-    // Once the signers of the admin agree with removing the reserve,
-    // they can change the reserve to zero to permit the user to use all reserved
-    // amount. So in effect, reservation will postpone the use of some tokens
-    // being used until all stakeholders agree with giving permission to use that
-    // token to the token owner.
     address internal admin;
 
     event OwnerChanged(address indexed previousOwner, address indexed newOwner);
     event VaultChanged(address indexed previousVault, address indexed newVault);
     event AdminChanged(address indexed previousAdmin, address indexed newAdmin);
     event ReserveChanged(address indexed _address, uint amount);
-    event Recalled(address indexed from, uint amount);
 
     /**
      * @dev reserved number of tokens per each address
@@ -169,33 +159,6 @@ contract MciCoin is ERC20Capped, ERC20Detailed {
 
         emit AdminChanged(admin, _newAdmin);
         admin = _newAdmin;
-    }
-
-    /**
-     * @dev transfer a part of reserved amount to the vault
-     *
-     *    Refer to the comment on the vault if you want to know more.
-     *
-     * @param _from the address from which the reserved token will be taken
-     * @param _amount the amount of token to be taken
-     */
-    function recall(address _from, uint _amount) public onlyAdmin {
-        require(_from != address(0));
-        require(_amount > 0);
-
-        uint currentReserve = reserveOf(_from);
-        uint currentBalance = balanceOf(_from);
-
-        require(currentReserve >= _amount);
-        require(currentBalance >= _amount);
-
-        uint newReserve = currentReserve.sub(_amount);
-        reserves[_from] = newReserve;
-        emit ReserveChanged(_from, newReserve);
-
-        // transfer token _from to vault
-        _transfer(_from, vault, _amount);
-        emit Recalled(_from, _amount);
     }
 
     /**
